@@ -1,0 +1,313 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(4, 0, 64);
+  background: radial-gradient(
+    circle,
+    rgba(4, 0, 64, 1) 0%,
+    rgba(27, 27, 131, 1) 87%
+  );
+  font-family: "roboto", sans-serif;
+}
+
+.music-player {
+  width: 350px;
+  height: 550px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 40px 100px rgba(255, 255, 255, 0.426);
+  padding: 30px;
+  overflow: hidden;
+  color: #bbdfee;
+  backdrop-filter: blur(10px);
+}
+
+.music-name,
+.artist-name {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.music-name {
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.artist-name {
+  font-size: 20px;
+}
+
+.disk {
+  position: relative;
+  display: block;
+  margin: 40px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-image: url("img/album-arash.png");
+  background-size: cover;
+  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08);
+  animation: rotate 20s linear infinite;
+  animation-play-state: paused;
+}
+
+.disk.play {
+  animation-play-state: running;
+}
+
+.disk::before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgb(4, 0, 64);
+  background: radial-gradient(
+    circle,
+    rgba(4, 0, 64, 1) 0%,
+    rgba(27, 27, 131, 1) 87%
+  );
+}
+
+.song-slider {
+  width: 100%;
+  position: relative;
+}
+
+.seek-bar {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  border-radius: 10px;
+  background: #bbdfee;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.seek-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1px;
+  height: 20px;
+  background: #ff5bc0;
+  box-shadow: -400px 0 0 400px #0a8ec7;
+}
+
+.current-time,
+.song-duration {
+  font-size: 14px;
+}
+
+.song-duration {
+  position: absolute;
+  right: 0;
+}
+
+.controls {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.lyric-btn {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  padding: 5px;
+  border: none;
+  font-size: 20px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.lyric-btn:hover,
+.shuffle:hover {
+  color: #ff5bc0;
+}
+
+.btn-close {
+  /* modal */
+  position: sticky;
+  top: -20px;
+  right: 0;
+  margin-left: 2rem;
+  float: right;
+  z-index: 3;
+  transform: translateX(50%);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  color: #ff5bc0 !important;
+}
+
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  /* Mulai dengan skala kecil */
+  transform: translate(-50%, -50%) scale(0.5);
+  width: 350px;
+  height: 550px;
+
+  background-color: rgba(0, 137, 182, 0.5);
+  backdrop-filter: blur(3px);
+  border-radius: 15px;
+  padding: 2rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Animasi smooth */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.modal.show {
+  display: block;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.modal-content {
+  margin-top: 2rem;
+  color: white;
+  text-shadow: 0 0 10px #252525;
+}
+
+.shuffle {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  padding: 5px;
+  border: none;
+  font-size: 20px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.play-btn {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #bbdfee;
+  cursor: pointer;
+  border: none;
+}
+
+.play-btn span {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 30px;
+  border-radius: 2px;
+  background-color: #0a8ec7;
+  transition: 0.5s;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.play-btn span:nth-child(2) {
+  left: 55%;
+  transform-origin: center;
+}
+
+.play-btn.pause span:nth-child(2) {
+  transform: translateY(-50%) scaleY(0);
+}
+
+.play-btn.pause span:nth-child(1) {
+  width: 35%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  border-radius: 0;
+  clip-path: polygon(0 0, 100% 50%, 100% 50%, 0% 100%);
+}
+
+.play-btn.pause {
+  animation: pulse 2s linear infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0;
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #bbdfee;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.forward-btn:hover,
+.backward-btn:hover {
+  color: #0a8ec7;
+}
